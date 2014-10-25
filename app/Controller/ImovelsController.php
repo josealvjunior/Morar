@@ -15,7 +15,7 @@ class ImovelsController extends AppController {
  * @var array
  */
 	public $components = array('Paginator', 'Session', 'Upload');
-
+	public $uses = array();
 
 
 	public function filtro(){
@@ -195,7 +195,7 @@ class ImovelsController extends AppController {
 
 	public function upload(){
 		if (!empty($this->request->data)) {
-			$this->Upload->upload($this->request->data['Arquivo']['uploadfile']);
+			$this->Upload->upload($this->request->data['Imovel']['uploadfile']);
 		}
 	} 
 
