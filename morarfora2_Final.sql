@@ -25,13 +25,13 @@ DROP TABLE IF EXISTS `bairros`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bairros` (
-  `co_bairros` int(255) NOT NULL,
+  `co_bairros` int(255) NOT NULL AUTO_INCREMENT,
   `co_regionais` int(255) NOT NULL,
   `descricao` varchar(150) NOT NULL,
   PRIMARY KEY (`co_bairros`),
   KEY `fk_Regionais_Bairros` (`co_regionais`),
   CONSTRAINT `fk_Regionais_Bairros` FOREIGN KEY (`co_regionais`) REFERENCES `regionais_bairros` (`co_regionais`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=525 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +61,7 @@ CREATE TABLE `candidaturas` (
   PRIMARY KEY (`co_candidatura`),
   KEY `fk_Candidaturas_pessoa1_idx` (`co_usuario`),
   KEY `fk_Candidaturas_Vagas1_idx` (`co_vagas`),
-  CONSTRAINT `fk_Candidaturas_pessoa1` FOREIGN KEY (`co_usuario`) REFERENCES `pessoas` (`co_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Candidaturas_pessoa1` FOREIGN KEY (`co_usuario`) REFERENCES `users` (`co_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Candidaturas_Vagas1` FOREIGN KEY (`co_vagas`) REFERENCES `vagas` (`co_vagas`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -110,14 +110,14 @@ DROP TABLE IF EXISTS `imovels`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `imovels` (
   `co_imovel` int(255) NOT NULL AUTO_INCREMENT,
-  `co_usuario` int(255) NOT NULL,
-  `tipo_imovel_id` int(255) NOT NULL,
-  `Valor_Aluguel` decimal(10,0) NOT NULL,
   `co_bairros` int(255) NOT NULL,
   `co_tipo_moradia` int(255) NOT NULL,
+  `co_faixa_preco` int(255) NOT NULL,
   `co_tipos_quartos` int(255) NOT NULL,
   `co_perfil_psicologico` int(255) NOT NULL,
-  `co_faixa_preco` int(255) NOT NULL,
+  `tipo_imovel_id` int(255) NOT NULL,
+  `co_usuario` int(255) NOT NULL,
+  `Valor_Aluguel` decimal(10,0) NOT NULL,
   `fumante` char(1) DEFAULT NULL,
   `animal` char(1) DEFAULT NULL,
   `mobiliado` char(1) DEFAULT NULL,
@@ -127,20 +127,20 @@ CREATE TABLE `imovels` (
   `data_atualizacao` date DEFAULT NULL,
   `data_cancelamento` date DEFAULT NULL,
   PRIMARY KEY (`co_imovel`),
-  KEY `fk_perfil_faixa_preco1_idx` (`co_faixa_preco`),
-  KEY `fk_perfil_tipo_moradia1_idx` (`co_tipo_moradia`),
-  KEY `fk_perfil_tipos_quartos1_idx` (`co_tipos_quartos`),
-  KEY `fk_perfil_perfil_pisicologico1_idx` (`co_perfil_psicologico`),
-  KEY `fk_perfil_bairros1_idx` (`co_bairros`),
-  KEY `fk_imovels_usuarios_idx` (`co_usuario`),
-  KEY `fk_imovels_tipoimoveis_idx` (`tipo_imovel_id`),
-  CONSTRAINT `fk_imovels_bairros` FOREIGN KEY (`co_bairros`) REFERENCES `bairros` (`co_bairros`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_imovels_faixa_preco` FOREIGN KEY (`co_faixa_preco`) REFERENCES `faixa_precos` (`co_faixa_preco`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_imovels_perfil_pisicologico` FOREIGN KEY (`co_perfil_psicologico`) REFERENCES `perfil_psicologicos` (`co_perfil_psicologico`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_imovels_pessoas` FOREIGN KEY (`co_usuario`) REFERENCES `pessoas` (`co_usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_imovels_tipoimoveis` FOREIGN KEY (`tipo_imovel_id`) REFERENCES `tipo_imovels` (`tipo_imovel_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_imovels_tipo_moradia` FOREIGN KEY (`co_tipo_moradia`) REFERENCES `tipo_moradias` (`co_tipo_moradia`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_imovels_tipo_quartos` FOREIGN KEY (`co_tipos_quartos`) REFERENCES `tipos_quartos` (`co_tipos_quartos`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_imovels_bairros1_idx` (`co_bairros`),
+  KEY `fk_imovels_tipo_moradias1_idx` (`co_tipo_moradia`),
+  KEY `fk_imovels_faixa_precos1_idx` (`co_faixa_preco`),
+  KEY `fk_imovels_tipos_quartos1_idx` (`co_tipos_quartos`),
+  KEY `fk_imovels_perfil_psicologicos1_idx` (`co_perfil_psicologico`),
+  KEY `fk_imovels_tipo_imovels1_idx` (`tipo_imovel_id`),
+  KEY `fk_imovels_pessoas1_idx` (`co_usuario`),
+  CONSTRAINT `fk_imovels_bairros1` FOREIGN KEY (`co_bairros`) REFERENCES `bairros` (`co_bairros`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_imovels_faixa_precos1` FOREIGN KEY (`co_faixa_preco`) REFERENCES `faixa_precos` (`co_faixa_preco`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_imovels_perfil_psicologicos1` FOREIGN KEY (`co_perfil_psicologico`) REFERENCES `perfil_psicologicos` (`co_perfil_psicologico`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_imovels_pessoas1` FOREIGN KEY (`co_usuario`) REFERENCES `users` (`co_usuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_imovels_tipos_quartos1` FOREIGN KEY (`co_tipos_quartos`) REFERENCES `tipos_quartos` (`co_tipos_quartos`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_imovels_tipo_imovels1` FOREIGN KEY (`tipo_imovel_id`) REFERENCES `tipo_imovels` (`tipo_imovel_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_imovels_tipo_moradias1` FOREIGN KEY (`co_tipo_moradia`) REFERENCES `tipo_moradias` (`co_tipo_moradia`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -150,7 +150,7 @@ CREATE TABLE `imovels` (
 
 LOCK TABLES `imovels` WRITE;
 /*!40000 ALTER TABLE `imovels` DISABLE KEYS */;
-INSERT INTO `imovels` VALUES (1,0,3,465,27,3,3,4,1,'N','S','N','2.jpg','Teste descrição ok','2014-10-21','2014-10-21','2014-10-21'),(4,0,1,220,12,1,1,1,1,'1','N','N','','','2014-10-23','2014-10-23','2014-10-23'),(8,1,1,600,11,1,3,1,2,'N','S','S','','','2014-10-20','2014-10-20','2014-10-20'),(9,1,1,850,11,1,3,1,4,'N','S','S','','','2014-10-20','2014-10-20','2014-10-20'),(10,1,1,634,431,1,3,1,1,'9','5','8','','Próximo à UFMG','2014-10-20','2014-10-20','2014-10-20'),(15,1,9,850,88,3,3,2,4,'5','8','8',NULL,NULL,NULL,NULL,NULL),(31,1,3,1800,88,2,1,2,4,'1','4','4',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `imovels` VALUES (1,0,0,0,0,0,0,0,465,'N','S','N','2.jpg','Teste descrição ok','2014-10-21','2014-10-21','2014-10-21'),(4,0,0,0,0,0,0,0,220,'1','N','N','','','2014-10-23','2014-10-23','2014-10-23'),(8,0,0,0,0,0,0,0,600,'N','S','S','','','2014-10-20','2014-10-20','2014-10-20'),(9,0,0,0,0,0,0,0,850,'N','S','S','','','2014-10-20','2014-10-20','2014-10-20'),(10,0,0,0,0,0,0,0,634,'9','5','8','','Próximo à UFMG','2014-10-20','2014-10-20','2014-10-20'),(15,0,0,0,0,0,0,0,850,'5','8','8',NULL,NULL,NULL,NULL,NULL),(31,0,0,0,0,0,0,0,1800,'1','4','4',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `imovels` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,41 +179,6 @@ INSERT INTO `perfil_psicologicos` VALUES (1,'Racionais'),(2,'Guardiões'),(3,'Ar
 UNLOCK TABLES;
 
 --
--- Table structure for table `pessoas`
---
-
-DROP TABLE IF EXISTS `pessoas`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `pessoas` (
-  `co_usuario` int(255) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `senha` varchar(50) NOT NULL,
-  `telefone` varchar(50) DEFAULT NULL,
-  `sexo` char(1) DEFAULT NULL,
-  `data_atualizacao` date DEFAULT NULL,
-  `data_Criacao` date DEFAULT NULL,
-  `data_Cancelamento` date DEFAULT NULL,
-  `data_Nascimento` date DEFAULT NULL,
-  `co_perfil_psicologico` int(255) NOT NULL,
-  PRIMARY KEY (`co_usuario`),
-  KEY `fk_pessoas_perfil_psicologicos1_idx` (`co_perfil_psicologico`),
-  CONSTRAINT `fk_pessoas_perfil_psicologicos1` FOREIGN KEY (`co_perfil_psicologico`) REFERENCES `perfil_psicologicos` (`co_perfil_psicologico`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pessoas`
---
-
-LOCK TABLES `pessoas` WRITE;
-/*!40000 ALTER TABLE `pessoas` DISABLE KEYS */;
-INSERT INTO `pessoas` VALUES (1,'jose Vicente','morbios@gmail.com','827ccb0eea8a706c4c34a16891f84e7b','(31) 8775-1169','M',NULL,'2014-09-23',NULL,'1985-07-29',0);
-/*!40000 ALTER TABLE `pessoas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `regionais_bairros`
 --
 
@@ -221,10 +186,10 @@ DROP TABLE IF EXISTS `regionais_bairros`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `regionais_bairros` (
-  `co_regionais` int(255) NOT NULL,
+  `co_regionais` int(255) NOT NULL AUTO_INCREMENT,
   `descricao` varchar(200) NOT NULL,
   PRIMARY KEY (`co_regionais`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,6 +275,42 @@ INSERT INTO `tipos_quartos` VALUES (1,'Suite'),(2,'Quarto individual'),(3,'Comp.
 UNLOCK TABLES;
 
 --
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `co_usuario` int(255) NOT NULL AUTO_INCREMENT,
+  `co_perfil_psicologico` int(255) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `role` varchar(20) DEFAULT 'admin',
+  `telefone` varchar(50) DEFAULT NULL,
+  `sexo` char(1) DEFAULT NULL,
+  `data_atualizacao` date DEFAULT NULL,
+  `data_Criacao` date DEFAULT NULL,
+  `data_Cancelamento` date DEFAULT NULL,
+  `data_Nascimento` date DEFAULT NULL,
+  PRIMARY KEY (`co_usuario`),
+  KEY `fk_pessoas_perfil_psicologicos1_idx` (`co_perfil_psicologico`),
+  CONSTRAINT `fk_pessoas_perfil_psicologicos1` FOREIGN KEY (`co_perfil_psicologico`) REFERENCES `perfil_psicologicos` (`co_perfil_psicologico`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,0,'jose Vicente','morbios@gmail.com','827ccb0eea8a706c4c34a16891f84e7b','admin','(31) 8775-1169','M',NULL,'2014-09-23',NULL,'1985-07-29');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `vagas`
 --
 
@@ -320,6 +321,7 @@ CREATE TABLE `vagas` (
   `co_vagas` int(255) NOT NULL AUTO_INCREMENT,
   `co_Imovel` int(255) NOT NULL,
   `ide_vaga` char(2) NOT NULL,
+  `vagas_disponiveis` int(11) DEFAULT NULL,
   `data_registro` date DEFAULT NULL,
   `data_atualizacao` date DEFAULT NULL,
   `data_cancelamento` date DEFAULT NULL,
@@ -346,4 +348,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-24 22:40:40
+-- Dump completed on 2014-10-24 21:27:29
